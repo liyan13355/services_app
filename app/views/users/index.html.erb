@@ -1,0 +1,73 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Users</h1>
+
+<button type="button" class="btn btn-primary instructions"><a href= "#">Instructions</a></button>
+<hr/>
+<br/><br/>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Service</th>
+      <th>Email</th>
+      <th>Country</th>
+      <th>Price</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.name %></td>
+        <td><%= user.service %></td>
+        <td><%= user.email %></td>
+        <td><%= user.country %></td>
+        <td><%= user.price %></td>
+        <td><%= link_to 'Show', user %></td>
+        
+        
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<div id = "empty">
+  <br>
+</div>
+
+<div style= "display: none">
+  <div id= "words"> 
+    <br/><br/><br/>
+    <p><em> Some Instructions Or Other </em></p>
+    <div class= "global"><a href = ""> Hide </a></div>
+  </div>
+
+  
+
+</div>
+
+<% if !current_user %>
+  <%= link_to 'Sign Up As A New User', new_user_path %>
+<% end %>
+
+
+<br/>
+
+<script>
+ 
+$(".instructions").click(function(event) {
+    event.preventDefault();
+    $("#empty").load("/users #words");
+  });
+
+
+$(".global").click(function(event) {
+  event.preventDefault();
+  $("#empty").load("/users #empty");
+  });
+
+</script>

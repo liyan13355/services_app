@@ -1,6 +1,6 @@
-class CreateServices < ActiveRecord::Migration[5.2]
+class CreateUsers < ActiveRecord::Migration[5.2]
   def change
-    create_table :services do |t|
+    create_table :users do |t|
       t.string :name
       t.string :service
       t.string :email
