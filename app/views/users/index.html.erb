@@ -6,37 +6,65 @@
 <hr/>
 <br/><br/>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Service</th>
-      <th>Email</th>
-      <th>Country</th>
-      <th>Price</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<!-- Filterrific search starts -->
 
-  <tbody>
-    <% @users.each do |user| %>
-      <tr>
-        <td><%= user.name %></td>
-        <td><%= user.service %></td>
-        <td><%= user.email %></td>
-        <td><%= user.country %></td>
-        <td><%= user.price %></td>
-        <td><%= link_to 'Show', user %></td>
-        
-        
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<%= form_for_filterrific @filterrific, html: { autocomplete: "off" } do |f| %>
+  <div class='row'>
+    <div class = "col-md-3">
+      <div class="form-group">
+
+        <%= f.label :search %>
+    <%# give the search field the 'filterrific-periodically-observed' class for live updates %>
+    <%= f.text_field(
+      :search_query,
+      class: 'filterrific-periodically-observed form-control'
+    ) %>
+  </div>
+  </div>
+
+  <div class = "cold-md-3">
+    <div class = "form-group">
+    <%= f.label :country %>
+    <%= f.select(
+      :with_country_id,
+      @filterrific.select_options[:with_country_id],
+      { include_blank: '- Any -' }, class: 'form-control' ) %>
+  </div>
+  </div>
+
+
+  <div class= "cold-md-2">
+    <div class = "form-group">
+    <%= f.label :registered_after %>
+    <%= f.text_field(:with_created_at_gte, class: 'js-datepicker form-control') %>
+  </div>
+  </div>
+
+
+  <div class= "col-md-4">
+    <div class = "form-group">
+      <%= f.label :sorted_by %>
+    <%= f.select(:sorted_by, @filterrific.select_options[:sorted_by], {}, class: 'form-control') %>
+  </div>
+  </div>
+</div>
+  <div>
+    <%= link_to(
+      'Reset filters',
+      reset_filterrific_url,
+    ) %>
+  </div>
+  
+<% end %>
+
+<%= render partial: 'list', locals: {users: @users} %>
+
+
+
 
 
 <div id = "empty">
-  <br>
+  <br><br><br>
 </div>
 
 <div style= "display: none">
@@ -59,6 +87,10 @@
 
 <script>
  
+$(document).ready(function() {
+  $(".js-datepicker").datepicker();
+});
+
 $(".instructions").click(function(event) {
     event.preventDefault();
     $("#empty").load("/users #words");
